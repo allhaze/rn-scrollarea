@@ -159,4 +159,16 @@ RCT_EXPORT_METHOD(zoomToStart:(nonnull NSNumber *)reactTag
      }];
 }
 
+RCT_EXPORT_METHOD(updateContentOffsetIfNeeded:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:
+     ^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry){
+         UIView *view = viewRegistry[reactTag];
+         if ([view isKindOfClass:[RCTScrollView class]]) {
+             [(RCTScrollView *)view updateContentOffsetIfNeeded];
+         } else {
+             RCTLogError(@"tried to didResizeContent: on non-RCTScrollView %@ with tag #%@", view, reactTag);
+         }
+     }];
+}
+
 @end
