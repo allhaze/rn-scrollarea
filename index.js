@@ -21,17 +21,17 @@ const ScrollArea = createReactClass({
     return ReactNative.findNodeHandle(this._scrollViewRef);
   },
   scrollTo: function({ x, y, animated }) {
-     UIManager.dispatchViewManagerCommand(
-      this.getScrollableNode(),
-      UIManager.DirectedScrollView.Commands.scrollTo,
-      [x || 0, y || 0, animated !== false],
+    UIManager.dispatchViewManagerCommand(
+        this.getScrollableNode(),
+        UIManager.getViewManagerConfig('DirectedScrollView').Commands.scrollTo,
+        [x || 0, y || 0, animated !== false],
     );
   },
   zoomToStart: function({ animated }) {
-     UIManager.dispatchViewManagerCommand(
-      this.getScrollableNode(),
-      UIManager.DirectedScrollView.Commands.zoomToStart,
-      [animated !== false],
+    UIManager.dispatchViewManagerCommand(
+        this.getScrollableNode(),
+        UIManager.getViewManagerConfig('DirectedScrollView').Commands.zoomToStart,
+        [animated !== false],
     );
   },
   _scrollViewRef: null,
@@ -45,26 +45,26 @@ const ScrollArea = createReactClass({
   },
   render: function() {
     return (
-      <NativeScrollView
-        {...this.props}
-        ref={this._setScrollViewRef}
-        onScrollBeginDrag={this.scrollResponderHandleScrollBeginDrag}
-        onScrollEndDrag={this.scrollResponderHandleScrollEndDrag}
-        onScroll={this.scrollResponderHandleScroll}
-        onMomentumScrollBegin={this.scrollResponderHandleMomentumScrollBegin}
-        onMomentumScrollEnd={this.scrollResponderHandleMomentumScrollEnd}
-        onStartShouldSetResponder={this.scrollResponderHandleStartShouldSetResponderCapture}
-        onScrollShouldSetResponder={this.scrollResponderHandleScrollShouldSetResponder}
-        onResponderGrant={this.scrollResponderHandleResponderGrant}
-        onResponderTerminationRequest={this.scrollResponderHandleTerminationRequest}
-        onResponderTerminate={this.scrollResponderHandleTerminate}
-        onResponderRelease={this.scrollResponderHandleResponderRelease}
-        onResponderReject={this.scrollResponderHandleResponderReject}
-      >
-        <View style={this.props.contentContainerStyle} pointerEvents={'box-none'}>
-          {this.props.children}
-        </View>
-      </NativeScrollView>
+        <NativeScrollView
+            {...this.props}
+            ref={this._setScrollViewRef}
+            onScrollBeginDrag={this.scrollResponderHandleScrollBeginDrag}
+            onScrollEndDrag={this.scrollResponderHandleScrollEndDrag}
+            onScroll={this.scrollResponderHandleScroll}
+            onMomentumScrollBegin={this.scrollResponderHandleMomentumScrollBegin}
+            onMomentumScrollEnd={this.scrollResponderHandleMomentumScrollEnd}
+            onStartShouldSetResponder={this.scrollResponderHandleStartShouldSetResponderCapture}
+            onScrollShouldSetResponder={this.scrollResponderHandleScrollShouldSetResponder}
+            onResponderGrant={this.scrollResponderHandleResponderGrant}
+            onResponderTerminationRequest={this.scrollResponderHandleTerminationRequest}
+            onResponderTerminate={this.scrollResponderHandleTerminate}
+            onResponderRelease={this.scrollResponderHandleResponderRelease}
+            onResponderReject={this.scrollResponderHandleResponderReject}
+        >
+          <View style={this.props.contentContainerStyle} pointerEvents={'box-none'}>
+            {this.props.children}
+          </View>
+        </NativeScrollView>
     );
   }
 });
@@ -74,9 +74,9 @@ export default ScrollArea;
 export const ScrollAreaChild = createReactClass({
   render: function() {
     return (
-      <NativeScrollViewChild {...this.props}>
-        {this.props.children}
-      </NativeScrollViewChild>
+        <NativeScrollViewChild {...this.props}>
+          {this.props.children}
+        </NativeScrollViewChild>
     );
   }
 });
