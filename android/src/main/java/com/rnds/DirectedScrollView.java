@@ -31,6 +31,8 @@ public class DirectedScrollView extends ReactViewGroup {
   private float minimumZoomScale = 1.0f;
   private float maximumZoomScale = 1.0f;
   private boolean bounces = true;
+  private boolean verticalBounceEnabled = true;
+  private boolean horizontalBounceEnabled = true;
   private boolean alwaysBounceVertical = false;
   private boolean alwaysBounceHorizontal = false;
   private boolean bouncesZoom = true;
@@ -216,7 +218,7 @@ public class DirectedScrollView extends ReactViewGroup {
     scrollY = startScrollY + deltaY;
 
     if (bounces) {
-      clampAndTranslateChildren(false, getMaxScrollY() <= 0 && !alwaysBounceVertical, getMaxScrollX() <= 0 && !alwaysBounceHorizontal);
+      clampAndTranslateChildren(false, !verticalBounceEnabled || (getMaxScrollY() <= 0 && !alwaysBounceVertical), !horizontalBounceEnabled || (getMaxScrollX() <= 0 && !alwaysBounceHorizontal));
     } else {
       clampAndTranslateChildren(false);
     }
@@ -369,7 +371,14 @@ public class DirectedScrollView extends ReactViewGroup {
   }
 
   private float getContentContainerHeight() {
-    return getChildAt(0).getHeight() * scaleFactor;
+    float x = getChildAt(0).getHeight() * scaleFactor;
+    for (int i = 1; i < getChildCount(); i++) {
+      float tempX = getChildAt(i).getHeight() * scaleFactor;
+      if(tempX > x) {
+        x = tempX;
+      }
+    }
+    return x;
   }
 
   private float getMaxScrollX() {
@@ -410,6 +419,14 @@ public class DirectedScrollView extends ReactViewGroup {
         Math.round(getContentContainerHeight()),
         getWidth(),
         getHeight()));
+  }
+
+  public void setVerticalBounceEnabled(final boolean verticalBounceEnabled) {
+    this.verticalBounceEnabled = verticalBounceEnabled;
+  }
+
+  public void setHorizontalBounceEnabled(final boolean horizontalBounceEnabled) {
+    this.horizontalBounceEnabled = horizontalBounceEnabled;
   }
 
   public void setMaximumZoomScale(final float maximumZoomScale) {
